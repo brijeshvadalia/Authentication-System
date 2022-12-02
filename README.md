@@ -43,6 +43,7 @@
 ![BADGE](https://img.shields.io/badge/JWT-JSONWEBTOKEN-red)
 ![BADGE](https://img.shields.io/badge/COOKIE-PARSER-lightgrey)
 ![BADGE](https://img.shields.io/badge/BCRYPTJS-BCRYPTJS-yellow)
+![BADGE](https://img.shields.io/badge/POSTMAN-POSTMAN-red)
 
 
 
