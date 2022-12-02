@@ -3,11 +3,15 @@ require('./config/database').connect();
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
+var cookieParser = require('cookie-parser')
 
 const User = require('./model/user')
+const auth = require('./middleware/auth')
+
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/',(req,res)=>{
     res.send('Hello from auth system');
@@ -77,7 +81,22 @@ app.post('/login', async (req,res) => {
               )
               user.token = token;
               user.password = undefined;
-              res.status(201).json(user);
+              
+            //   without Cookies
+            //   res.status(201).json(user);
+
+            // with cookies
+            const options = {
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                httpOnly: true,
+              };
+        
+              res.status(200).cookie("token", token, options).json({
+                success: true,
+                token,
+                user,
+              });
+    
             }
            res.status(401).send('Email or Password is Incorrect');
 
@@ -85,5 +104,10 @@ app.post('/login', async (req,res) => {
         console.log(error);
     }
 })
+
+app.get('/dashboard',auth, (req,res) => {
+    res.send("WELCOME TO DASHBOARD")
+})
+
 
 module.exports = app;
